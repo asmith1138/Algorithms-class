@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/BibTexSort/BibTexSort.iml" filepath="$PROJECT_DIR$/BibTexSort/BibTexSort.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/CMPSC 463.iml" filepath="$PROJECT_DIR$/.idea/CMPSC 463.iml" />
+      <module fileurl="file://$PROJECT_DIR$/balanced3parenStacks/balanced3parenStacks.iml" filepath="$PROJECT_DIR$/balanced3parenStacks/balanced3parenStacks.iml" />
+      <module fileurl="file://$PROJECT_DIR$/unionfind/unionfind.iml" filepath="$PROJECT_DIR$/unionfind/unionfind.iml" />
+    </modules>
+  </component>
+</project>
