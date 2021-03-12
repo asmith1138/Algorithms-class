@@ -13,7 +13,7 @@ import java.util.regex.*;
 * I changed the hacker rank code from an output file to standard out
 * but I also tested on hackerrank and using stdout works on their site as well
 * you can either compile and run locally or copy and paste to hacker rank and it should work
-* */s
+* */
 
 public class Main {
 

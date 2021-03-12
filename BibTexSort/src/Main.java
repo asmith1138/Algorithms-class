@@ -132,32 +132,33 @@ public class Main {
                 System.out.println("number={" + number + "},");
             if(!journal.isEmpty())
                 System.out.println("journal={" + journal + "},");
+            System.out.println("}");
         }
 
     }
     public static class ByName implements Comparator<bibTexObj>{
-        public int compare(bibTexObj a, bibTexObj b) {return a.name.compareTo(b.name);}
+        public int compare(bibTexObj a, bibTexObj b) {return b.name.compareToIgnoreCase(a.name);}
     }
     public static class ByTitle implements Comparator<bibTexObj>{
-        public int compare(bibTexObj a, bibTexObj b) {return a.title.compareTo(b.title);}
+        public int compare(bibTexObj a, bibTexObj b) {return b.title.compareToIgnoreCase(a.title);}
     }
     public static class ByAuthor implements Comparator<bibTexObj>{
-        public int compare(bibTexObj a, bibTexObj b) {return a.author.compareTo(b.author);}
+        public int compare(bibTexObj a, bibTexObj b) {return b.author.compareToIgnoreCase(a.author);}
     }
     public static class ByOrganization implements Comparator<bibTexObj>{
-        public int compare(bibTexObj a, bibTexObj b) {return a.organization.compareTo(b.organization);}
+        public int compare(bibTexObj a, bibTexObj b) {return b.organization.compareToIgnoreCase(a.organization);}
     }
     public static class ByPublisher implements Comparator<bibTexObj>{
-        public int compare(bibTexObj a, bibTexObj b) {return a.publisher.compareTo(b.publisher);}
+        public int compare(bibTexObj a, bibTexObj b) {return b.publisher.compareToIgnoreCase(a.publisher);}
     }
     public static class ByBookTitle implements Comparator<bibTexObj>{
-        public int compare(bibTexObj a, bibTexObj b) {return a.booktitle.compareTo(b.booktitle);}
+        public int compare(bibTexObj a, bibTexObj b) {return b.booktitle.compareToIgnoreCase(a.booktitle);}
     }
     public static class ByJournal implements Comparator<bibTexObj>{
-        public int compare(bibTexObj a, bibTexObj b) {return a.journal.compareTo(b.journal);}
+        public int compare(bibTexObj a, bibTexObj b) {return b.journal.compareToIgnoreCase(a.journal);}
     }
     public static class ByType implements Comparator<bibTexObj>{
-        public int compare(bibTexObj a, bibTexObj b) {return a.type.compareTo(b.type);}
+        public int compare(bibTexObj a, bibTexObj b) {return b.type.compareToIgnoreCase(a.type);}
     }
 
     public static class ByVolume implements Comparator<bibTexObj>{
@@ -173,18 +174,25 @@ public class Main {
     public static class Merge
     {
         private static void merge(bibTexObj[] a, bibTexObj[] aux, int lo, int mid, int hi, Comparator<bibTexObj> comparator){
+            for (int c = 0; c <= aux.length-1; c++)
+                aux[c] = null;
+            for (int k = lo; k <= hi; k++)
+                aux[k] = a[k];
             int i = lo, j = mid+1;
             for (int k = lo; k <= hi; k++)
             {
-                if (i > mid) aux[k] = a[j++];
-                else if (j > hi) aux[k] = a[i++];
-                else if (comparator.compare(a[i], a[j]) < 0) aux[k] = a[j++];
-                else aux[k] = a[i++];
+                if (i > mid) a[k] = aux[j++];
+                else if (j > hi) a[k] = aux[i++];
+                else if (comparator.compare(aux[i], aux[j]) < 0) a[k] = aux[j++];
+                else a[k] = aux[i++];
             }
         }
-        public static void sort(bibTexObj[] a, Comparator<bibTexObj> comparator){
+        public static void sort(bibTexObj[] a, Comparator<bibTexObj> comparator, boolean reverse){
             bibTexObj[] aux = new bibTexObj[a.length];
-            sort(a, aux, 0, a.length - 1,comparator);
+            if(reverse)
+                reverse(a, aux, 0, a.length - 1,comparator);
+            else
+                sort(a, aux, 0, a.length - 1,comparator);
         }
         private static void sort(bibTexObj[] a, bibTexObj[] aux, int lo, int hi, Comparator<bibTexObj> comparator){
             if (hi <= lo) return;
@@ -192,10 +200,6 @@ public class Main {
             sort(a, aux, lo, mid,comparator);
             sort(a, aux, mid+1, hi,comparator);
             merge(a, aux, lo, mid, hi,comparator);
-        }
-        public static void reverse(bibTexObj[] a, Comparator<bibTexObj> comparator){
-            bibTexObj[] aux = new bibTexObj[a.length];
-            reverse(a, aux, 0, a.length - 1,comparator);
         }
         private static void reverse(bibTexObj[] a, bibTexObj[] aux, int lo, int hi, Comparator<bibTexObj> comparator){
             if (hi <= lo) return;
@@ -205,13 +209,15 @@ public class Main {
             reverseMerge(a, aux, lo, mid, hi,comparator);
         }
         private static void reverseMerge(bibTexObj[] a, bibTexObj[] aux, int lo, int mid, int hi, Comparator<bibTexObj> comparator){
+            for (int k = lo; k <= hi; k++)
+                aux[k] = a[k];
             int i = lo, j = mid+1;
             for (int k = lo; k <= hi; k++)
             {
-                if (i > mid) aux[k] = a[j++];
-                else if (j > hi) aux[k] = a[i++];
-                else if (comparator.compare(a[j], a[i]) < 0) aux[k] = a[j++];
-                else aux[k] = a[i++];
+                if (i > mid) a[k] = aux[j++];
+                else if (j > hi) a[k] = aux[i++];
+                else if (comparator.compare(aux[i], aux[j]) >= 0) a[k] = aux[j++];
+                else a[k] = aux[i++];
             }
         }
     }
@@ -237,9 +243,55 @@ public class Main {
             }
         }
 
+        boolean reverse = false;
+        for(int j = args.length - 1; j > 0; j--){
+            reverse = false;
+            if(args[j].compareToIgnoreCase("-r") == 0){
+                j--;
+                reverse = true;
+            }
+            switch(args[j].toLowerCase()){
+                case "name":
+                    Merge.sort(bibTexObjs, new ByName(), reverse);
+                    break;
+                case "year":
+                    Merge.sort(bibTexObjs, new ByYear(), reverse);
+                    break;
+                case "title":
+                    Merge.sort(bibTexObjs, new ByTitle(), reverse);
+                    break;
+                case "author":
+                    Merge.sort(bibTexObjs, new ByAuthor(), reverse);
+                    break;
+                case "organization":
+                    Merge.sort(bibTexObjs, new ByOrganization(), reverse);
+                    break;
+                case "booktitle":
+                    Merge.sort(bibTexObjs, new ByBookTitle(), reverse);
+                    break;
+                case "journal":
+                    Merge.sort(bibTexObjs, new ByJournal(), reverse);
+                    break;
+                case "volume":
+                    Merge.sort(bibTexObjs, new ByVolume(), reverse);
+                    break;
+                case "publisher":
+                    Merge.sort(bibTexObjs, new ByPublisher(), reverse);
+                    break;
+                case "type":
+                    Merge.sort(bibTexObjs, new ByType(), reverse);
+                    break;
+                case "number":
+                    Merge.sort(bibTexObjs, new ByNumber(), reverse);
+                    break;
+                default:
+                    break;
+                //System.out.println(scan.next());
+            }
+        }
         //Collections.sort(bibTexObjs, new ByAuthor());
-        Merge.sort(bibTexObjs, new ByName());
-        Merge.sort(bibTexObjs, new ByYear());
+        //Merge.sort(bibTexObjs, new ByName());
+        //Merge.sort(bibTexObjs, new ByYear());
         for(bibTexObj citation : bibTexObjs)
             citation.print();
     }
