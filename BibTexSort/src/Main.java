@@ -1,7 +1,6 @@
 //import org.jbibtex;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -113,26 +112,54 @@ public class Main {
         public void print(){
             System.out.println("@" + type + "{" + name + ",");
             if(!title.isEmpty())
-                System.out.println("title={" + title + "},");
+                System.out.println("\ttitle={" + title + "},");
             if(!author.isEmpty())
-                System.out.println("author={" + author + "},");
+                System.out.println("\tauthor={" + author + "},");
             if(!pages.isEmpty())
-                System.out.println("pages={" + pages + "},");
+                System.out.println("\tpages={" + pages + "},");
             if(year != 0)
-                System.out.println("year={" + year + "},");
+                System.out.println("\tyear={" + year + "},");
             if(!organization.isEmpty())
-                System.out.println("organization={" + organization + "},");
+                System.out.println("\torganization={" + organization + "},");
             if(!publisher.isEmpty())
-                System.out.println("publisher={" + publisher + "},");
+                System.out.println("\tpublisher={" + publisher + "},");
             if(!booktitle.isEmpty())
-                System.out.println("booktitle={" + booktitle + "},");
+                System.out.println("\tbooktitle={" + booktitle + "},");
             if(volume != 0)
-                System.out.println("volume={" + volume + "},");
+                System.out.println("\tvolume={" + volume + "},");
             if(number != 0)
-                System.out.println("number={" + number + "},");
+                System.out.println("\tnumber={" + number + "},");
             if(!journal.isEmpty())
-                System.out.println("journal={" + journal + "},");
-            System.out.println("}");
+                System.out.println("\tjournal={" + journal + "},");
+            System.out.println("}\n");
+        }
+
+        public String ToString() {
+                //FileWriter writer = new FileWriter(filepath);
+                String tostring = "@" + type + "{" + name + ",\n";
+                //writer.append("@" + type + "{" + name + ",\n");
+                if(!title.isEmpty())
+                    tostring += "\ttitle={" + title + "},\n";
+                if(!author.isEmpty())
+                    tostring += "\tauthor={" + author + "},\n";
+                if(!pages.isEmpty())
+                    tostring += "\tpages={" + pages + "},\n";
+                if(year != 0)
+                    tostring += "\tyear={" + year + "},\n";
+                if(!organization.isEmpty())
+                    tostring += "\torganization={" + organization + "},\n";
+                if(!publisher.isEmpty())
+                    tostring += "\tpublisher={" + publisher + "},\n";
+                if(!booktitle.isEmpty())
+                    tostring += "\tbooktitle={" + booktitle + "},\n";
+                if(volume != 0)
+                    tostring += "\tvolume={" + volume + "},\n";
+                if(number != 0)
+                    tostring += "\tnumber={" + number + "},\n";
+                if(!journal.isEmpty())
+                    tostring += "\tjournal={" + journal + "},\n";
+                tostring += "}\n\n";
+                return tostring;
         }
 
     }
@@ -226,7 +253,7 @@ public class Main {
         Main program = new Main();
         program.run(args);
     }
-    public void run(String[] args){
+    public void run(String[] args) {
 
         Scanner scan = new Scanner(System.in);
 
@@ -244,7 +271,7 @@ public class Main {
         }
 
         boolean reverse = false;
-        for(int j = args.length - 1; j > 0; j--){
+        for(int j = args.length - 1; j > 1; j--){
             reverse = false;
             if(args[j].compareToIgnoreCase("-r") == 0){
                 j--;
@@ -292,8 +319,25 @@ public class Main {
         //Collections.sort(bibTexObjs, new ByAuthor());
         //Merge.sort(bibTexObjs, new ByName());
         //Merge.sort(bibTexObjs, new ByYear());
-        for(bibTexObj citation : bibTexObjs)
-            citation.print();
+        if(args[1].toLowerCase() == "out")
+            for(bibTexObj citation : bibTexObjs)
+                citation.print();
+        else{
+            File f = new File(args[1]);
+            String print = "";
+            try {
+                f.createNewFile();
+                FileWriter writer = new FileWriter(args[1]);
+                for(bibTexObj citation : bibTexObjs)
+                    print += citation.ToString();
+                writer.write(print);
+                writer.close();
+            }
+            catch (IOException e){
+                System.out.println("Output file cannot be created");
+            }
+        }
+
     }
 
     private static List<String> readFile(String filename)
