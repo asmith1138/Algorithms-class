@@ -15,18 +15,23 @@ public class Main {
         public String name = "";
         public String publisher = "";
         public String booktitle = "";
-        public int volume = 0;
-        public int number = 0;
+        public String volume = "";
+        public String number = "";
         public String journal = "";
         public String type = "";
+        public String numpages = "";
+        public String url = "";
+        public String howpublished = "";
+        public String note = "";
+        public String isbn = "";
+        public String address = "";
+        public String doi = "";
+        public String location = "";
+        public String abstractText = "";
+        public String keywords = "";
+        public String series = "";
 
         public bibTexObj(){}
-        public bibTexObj(String title, String name, String author, int year){
-            this.title=title;
-            this.name=name;
-            this.author=author;
-            this.year=year;
-        }
         public bibTexObj(String bibtexString){
             if(!bibtexString.isEmpty())
                 this.parseInto(bibtexString);
@@ -45,65 +50,144 @@ public class Main {
                 if(matcher.find()){
                     this.name = matcher.group(0);
                 }
+                //I would much rather use (?<=title(\s+)?=(\s+)?{)((?!},).)*(?=})
+                //but Java does not support repeating characters in lookarounds
                 //title
-                pattern = Pattern.compile("(?<=title=\\{)((?!\\}).)*(?=\\})");
+                pattern = Pattern.compile("(?<=title(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=})");
                 matcher = pattern.matcher(bibtex);
                 if(matcher.find()){
                     this.title = matcher.group(0);
                 }
                 //author
-                pattern = Pattern.compile("(?<=author=\\{)((?!\\}).)*(?=\\})");
+                pattern = Pattern.compile("(?<=author(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=})");
                 matcher = pattern.matcher(bibtex);
                 if(matcher.find()){
                     this.author = matcher.group(0);
                 }
                 //journal
-                pattern = Pattern.compile("(?<=journal=\\{)((?!\\}).)*(?=\\})");
+                pattern = Pattern.compile("(?<=journal(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=})");
                 matcher = pattern.matcher(bibtex);
                 if(matcher.find()){
                     this.journal = matcher.group(0);
                 }
                 //volume
-                pattern = Pattern.compile("(?<=volume=\\{)((?!\\}).)*(?=\\})");
+                pattern = Pattern.compile("(?<=volume(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=})");
                 matcher = pattern.matcher(bibtex);
                 if(matcher.find()){
-                    this.volume = Integer.parseInt(matcher.group(0));
+                    this.volume = matcher.group(0);
                 }
                 //number
-                pattern = Pattern.compile("(?<=number=\\{)((?!\\}).)*(?=\\})");
+                pattern = Pattern.compile("(?<=number(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=})");
                 matcher = pattern.matcher(bibtex);
                 if(matcher.find()){
-                    this.number = Integer.parseInt(matcher.group(0));
+                    this.number = matcher.group(0);
                 }
                 //pages
-                pattern = Pattern.compile("(?<=pages=\\{)((?!\\}).)*(?=\\})");
+                pattern = Pattern.compile("(?<=pages(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=})");
                 matcher = pattern.matcher(bibtex);
                 if(matcher.find()){
                     this.pages = matcher.group(0);
                 }
                 //year
-                pattern = Pattern.compile("(?<=year=\\{)((?!\\}).)*(?=\\})");
+                pattern = Pattern.compile("(?<=year(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=})");
                 matcher = pattern.matcher(bibtex);
                 if(matcher.find()){
                     this.year = Integer.parseInt(matcher.group(0));
                 }
                 //publisher
-                pattern = Pattern.compile("(?<=publisher=\\{)((?!\\}).)*(?=\\})");
+                pattern = Pattern.compile("(?<=publisher(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=})");
                 matcher = pattern.matcher(bibtex);
                 if(matcher.find()){
                     this.publisher = matcher.group(0);
                 }
                 //booktitle
-                pattern = Pattern.compile("(?<=booktitle=\\{)((?!\\}).)*(?=\\})");
+                pattern = Pattern.compile("(?<=booktitle(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=})");
                 matcher = pattern.matcher(bibtex);
                 if(matcher.find()){
                     this.booktitle = matcher.group(0);
                 }
                 //organization
-                pattern = Pattern.compile("(?<=organization=\\{)((?!\\}).)*(?=\\})");
+                pattern = Pattern.compile("(?<=organization(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=})");
                 matcher = pattern.matcher(bibtex);
                 if(matcher.find()){
                     this.organization = matcher.group(0);
+                }
+
+                //numpages
+                pattern = Pattern.compile("(?<=numpages(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=})");
+                matcher = pattern.matcher(bibtex);
+                if(matcher.find()){
+                    this.numpages = matcher.group(0);
+                }
+
+                //url
+                pattern = Pattern.compile("(?<=url(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=})");
+                matcher = pattern.matcher(bibtex);
+                if(matcher.find()){
+                    this.url = matcher.group(0);
+                }
+
+                //howpublished
+                pattern = Pattern.compile("(?<=howpublished(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=}})");
+                matcher = pattern.matcher(bibtex);
+                if(matcher.find()){
+                    this.howpublished = matcher.group(0);
+                }
+
+                //note
+                pattern = Pattern.compile("(?<=note(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=})");
+                matcher = pattern.matcher(bibtex);
+                if(matcher.find()){
+                    this.note = matcher.group(0);
+                }
+
+                //isbn
+                pattern = Pattern.compile("(?<=isbn(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=})");
+                matcher = pattern.matcher(bibtex);
+                if(matcher.find()){
+                    this.isbn = matcher.group(0);
+                }
+
+                //address
+                pattern = Pattern.compile("(?<=address(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=})");
+                matcher = pattern.matcher(bibtex);
+                if(matcher.find()){
+                    this.address = matcher.group(0);
+                }
+
+                //location
+                pattern = Pattern.compile("(?<=location(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=})");
+                matcher = pattern.matcher(bibtex);
+                if(matcher.find()){
+                    this.location = matcher.group(0);
+                }
+
+                //doi
+                pattern = Pattern.compile("(?<=doi(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=})");
+                matcher = pattern.matcher(bibtex);
+                if(matcher.find()){
+                    this.doi = matcher.group(0);
+                }
+
+                //abstractText
+                pattern = Pattern.compile("(?<=abstract(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=})");
+                matcher = pattern.matcher(bibtex);
+                if(matcher.find()){
+                    this.abstractText = matcher.group(0);
+                }
+
+                //keywords
+                pattern = Pattern.compile("(?<=keywords(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=})");
+                matcher = pattern.matcher(bibtex);
+                if(matcher.find()){
+                    this.keywords = matcher.group(0);
+                }
+
+                //series
+                pattern = Pattern.compile("(?<=series(\\s)?=(\\s)?(\\s)?(\\s)?(\\s)?\\{)((?!},).)*(?=})");
+                matcher = pattern.matcher(bibtex);
+                if(matcher.find()){
+                    this.series = matcher.group(0);
                 }
                 //System.out.println(bibtex);
             }
@@ -125,41 +209,85 @@ public class Main {
                 System.out.println("\tpublisher={" + publisher + "},");
             if(!booktitle.isEmpty())
                 System.out.println("\tbooktitle={" + booktitle + "},");
-            if(volume != 0)
+            if(!volume.isEmpty())
                 System.out.println("\tvolume={" + volume + "},");
-            if(number != 0)
+            if(!number.isEmpty())
                 System.out.println("\tnumber={" + number + "},");
             if(!journal.isEmpty())
                 System.out.println("\tjournal={" + journal + "},");
+            if(!url.isEmpty())
+                System.out.println("\turl={" + url + "},");
+            if(!numpages.isEmpty())
+                System.out.println("\tnumpages={" + numpages + "},");
+            if(!howpublished.isEmpty())
+                System.out.println("\thowpublished={" + howpublished + "},");
+            if(!note.isEmpty())
+                System.out.println("\tnote={" + note + "},");
+            if(!isbn.isEmpty())
+                System.out.println("\tisbn={" + isbn + "},");
+            if(!address.isEmpty())
+                System.out.println("\taddress={" + address + "},");
+            if(!location.isEmpty())
+                System.out.println("\tlocation={" + location + "},");
+            if(!doi.isEmpty())
+                System.out.println("\tdoi={" + doi + "},");
+            if(!abstractText.isEmpty())
+                System.out.println("\tabstract={" + abstractText + "},");
+            if(!keywords.isEmpty())
+                System.out.println("\tkeywords={" + keywords + "},");
+            if(!series.isEmpty())
+                System.out.println("\tseries={" + series + "},");
             System.out.println("}\n");
         }
 
         public String ToString() {
-                //FileWriter writer = new FileWriter(filepath);
-                String tostring = "@" + type + "{" + name + ",\n";
-                //writer.append("@" + type + "{" + name + ",\n");
-                if(!title.isEmpty())
-                    tostring += "\ttitle={" + title + "},\n";
-                if(!author.isEmpty())
-                    tostring += "\tauthor={" + author + "},\n";
-                if(!pages.isEmpty())
-                    tostring += "\tpages={" + pages + "},\n";
-                if(year != 0)
-                    tostring += "\tyear={" + year + "},\n";
-                if(!organization.isEmpty())
-                    tostring += "\torganization={" + organization + "},\n";
-                if(!publisher.isEmpty())
-                    tostring += "\tpublisher={" + publisher + "},\n";
-                if(!booktitle.isEmpty())
-                    tostring += "\tbooktitle={" + booktitle + "},\n";
-                if(volume != 0)
-                    tostring += "\tvolume={" + volume + "},\n";
-                if(number != 0)
-                    tostring += "\tnumber={" + number + "},\n";
-                if(!journal.isEmpty())
-                    tostring += "\tjournal={" + journal + "},\n";
-                tostring += "}\n\n";
-                return tostring;
+            //FileWriter writer = new FileWriter(filepath);
+            String tostring = "@" + type + "{" + name + ",\n";
+            //writer.append("@" + type + "{" + name + ",\n");
+            if(!title.isEmpty())
+                tostring += "\ttitle={" + title + "},\n";
+            if(!author.isEmpty())
+                tostring += "\tauthor={" + author + "},\n";
+            if(!pages.isEmpty())
+                tostring += "\tpages={" + pages + "},\n";
+            if(year != 0)
+                tostring += "\tyear={" + year + "},\n";
+            if(!organization.isEmpty())
+                tostring += "\torganization={" + organization + "},\n";
+            if(!publisher.isEmpty())
+                tostring += "\tpublisher={" + publisher + "},\n";
+            if(!booktitle.isEmpty())
+                tostring += "\tbooktitle={" + booktitle + "},\n";
+            if(!volume.isEmpty())
+                tostring += "\tvolume={" + volume + "},\n";
+            if(!number.isEmpty())
+                tostring += "\tnumber={" + number + "},\n";
+            if(!journal.isEmpty())
+                tostring += "\tjournal={" + journal + "},\n";
+            if(!series.isEmpty())
+                tostring += "\tseries={" + series + "},\n";
+            if(!keywords.isEmpty())
+                tostring += "\tkeywords={" + keywords + "},\n";
+            if(!abstractText.isEmpty())
+                tostring += "\tabstract={" + abstractText + "},\n";
+            if(!location.isEmpty())
+                tostring += "\tlocation={" + location + "},\n";
+            if(!numpages.isEmpty())
+                tostring += "\tnumpages={" + numpages + "},\n";
+            if(!url.isEmpty())
+                tostring += "\turl={" + url + "},\n";
+            if(!howpublished.isEmpty())
+                tostring += "\thowpublished={" + howpublished + "},\n";
+            if(!note.isEmpty())
+                tostring += "\tnote={" + note + "},\n";
+            if(!isbn.isEmpty())
+                tostring += "\tisbn={" + isbn + "},\n";
+            if(!address.isEmpty())
+                tostring += "\taddress={" + address + "},\n";
+            if(!doi.isEmpty())
+                tostring += "\tdoi={" + doi + "},\n";
+            tostring += "}\n\n";
+            return tostring;
         }
 
     }
@@ -189,10 +317,10 @@ public class Main {
     }
 
     public static class ByVolume implements Comparator<bibTexObj>{
-        public int compare(bibTexObj a, bibTexObj b) {return a.volume - b.volume;}
+        public int compare(bibTexObj a, bibTexObj b) {return b.volume.compareToIgnoreCase(a.volume);}
     }
     public static class ByNumber implements Comparator<bibTexObj>{
-        public int compare(bibTexObj a, bibTexObj b) {return a.number - b.number;}
+        public int compare(bibTexObj a, bibTexObj b) {return b.number.compareToIgnoreCase(a.number);}
     }
     public static class ByYear implements Comparator<bibTexObj>{
         public int compare(bibTexObj a, bibTexObj b) {return a.year - b.year;}
@@ -254,9 +382,6 @@ public class Main {
         program.run(args);
     }
     public void run(String[] args) {
-
-        Scanner scan = new Scanner(System.in);
-
         String latexString = String.join("\n",readFile(args[0]));
 
         String[] split1 = latexString.split("@");
@@ -270,7 +395,7 @@ public class Main {
             }
         }
 
-        boolean reverse = false;
+        boolean reverse;
         for(int j = args.length - 1; j > 1; j--){
             reverse = false;
             if(args[j].compareToIgnoreCase("-r") == 0){
@@ -316,10 +441,7 @@ public class Main {
                 //System.out.println(scan.next());
             }
         }
-        //Collections.sort(bibTexObjs, new ByAuthor());
-        //Merge.sort(bibTexObjs, new ByName());
-        //Merge.sort(bibTexObjs, new ByYear());
-        if(args[1].toLowerCase() == "out")
+        if(args[1].equalsIgnoreCase("out"))
             for(bibTexObj citation : bibTexObjs)
                 citation.print();
         else{

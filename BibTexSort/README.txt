@@ -1,6 +1,6 @@
 **********BibTexSort**********
 Usage: Build and navigate to output directory
-java Main <filepath> <outputFilePath> <recursively: <sort key> <optional: -r>>
+java Main <filepath> <outputFilePath> <In then by order: <sort key> <optional: -r>>
 
 example: java Main "E:\Andrew\My Documents\Masters\CMPSC 463\BibTexSort\bug_triage.bib" out Year
 example: java Main "E:\Andrew\My Documents\Masters\CMPSC 463\BibTexSort\bug_triage.bib" out Year -r
