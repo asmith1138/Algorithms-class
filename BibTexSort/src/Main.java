@@ -315,7 +315,33 @@ public class Main {
     public static class ByType implements Comparator<bibTexObj>{
         public int compare(bibTexObj a, bibTexObj b) {return b.type.compareToIgnoreCase(a.type);}
     }
-
+    public static class ByURL implements Comparator<bibTexObj>{
+        public int compare(bibTexObj a, bibTexObj b) {return b.url.compareToIgnoreCase(a.url);}
+    }
+    public static class ByHowPublished implements Comparator<bibTexObj>{
+        public int compare(bibTexObj a, bibTexObj b) {return b.howpublished.compareToIgnoreCase(a.howpublished);}
+    }
+    public static class ByNote implements Comparator<bibTexObj>{
+        public int compare(bibTexObj a, bibTexObj b) {return b.note.compareToIgnoreCase(a.note);}
+    }
+    public static class ByISBN implements Comparator<bibTexObj>{
+        public int compare(bibTexObj a, bibTexObj b) {return b.isbn.compareToIgnoreCase(a.isbn);}
+    }
+    public static class ByAddress implements Comparator<bibTexObj>{
+        public int compare(bibTexObj a, bibTexObj b) {return b.address.compareToIgnoreCase(a.address);}
+    }
+    public static class ByDOI implements Comparator<bibTexObj>{
+        public int compare(bibTexObj a, bibTexObj b) {return b.doi.compareToIgnoreCase(a.doi);}
+    }
+    public static class ByLocation implements Comparator<bibTexObj>{
+        public int compare(bibTexObj a, bibTexObj b) {return b.location.compareToIgnoreCase(a.location);}
+    }
+    public static class ByAbstract implements Comparator<bibTexObj>{
+        public int compare(bibTexObj a, bibTexObj b) {return b.abstractText.compareToIgnoreCase(a.abstractText);}
+    }
+    public static class BySeries implements Comparator<bibTexObj>{
+        public int compare(bibTexObj a, bibTexObj b) {return b.series.compareToIgnoreCase(a.series);}
+    }
     public static class ByVolume implements Comparator<bibTexObj>{
         public int compare(bibTexObj a, bibTexObj b) {return b.volume.compareToIgnoreCase(a.volume);}
     }
@@ -435,6 +461,33 @@ public class Main {
                     break;
                 case "number":
                     Merge.sort(bibTexObjs, new ByNumber(), reverse);
+                    break;
+                case "url":
+                    Merge.sort(bibTexObjs, new ByURL(), reverse);
+                    break;
+                case "howpublished":
+                    Merge.sort(bibTexObjs, new ByHowPublished(), reverse);
+                    break;
+                case "note":
+                    Merge.sort(bibTexObjs, new ByNote(), reverse);
+                    break;
+                case "isbn":
+                    Merge.sort(bibTexObjs, new ByISBN(), reverse);
+                    break;
+                case "address":
+                    Merge.sort(bibTexObjs, new ByAddress(), reverse);
+                    break;
+                case "doi":
+                    Merge.sort(bibTexObjs, new ByDOI(), reverse);
+                    break;
+                case "location":
+                    Merge.sort(bibTexObjs, new ByLocation(), reverse);
+                    break;
+                case "abstract":
+                    Merge.sort(bibTexObjs, new ByAbstract(), reverse);
+                    break;
+                case "series":
+                    Merge.sort(bibTexObjs, new BySeries(), reverse);
                     break;
                 default:
                     break;
