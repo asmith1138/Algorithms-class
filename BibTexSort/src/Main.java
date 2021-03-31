@@ -30,6 +30,7 @@ public class Main {
         public String abstractText = "";
         public String keywords = "";
         public String series = "";
+        public String fullText = "";
 
         public bibTexObj(){}
         public bibTexObj(String bibtexString){
@@ -37,6 +38,7 @@ public class Main {
                 this.parseInto(bibtexString);
         }
         public void parseInto(String bibtex){
+            this.fullText = bibtex.trim();
             if(!bibtex.isEmpty()){
                 //type
                 Pattern pattern = Pattern.compile("\\w+(?=\\{)");
@@ -288,6 +290,15 @@ public class Main {
                 tostring += "\tdoi={" + doi + "},\n";
             tostring += "}\n\n";
             return tostring;
+        }
+
+        public void simplifiedPrint(){
+            System.out.println("@" + fullText);
+            System.out.println("},\n\n");
+        }
+
+        public String simplifiedToString() {
+            return "@" + fullText + ",\n\n";
         }
 
     }
