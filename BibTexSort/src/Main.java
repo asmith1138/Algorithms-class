@@ -507,7 +507,7 @@ public class Main {
         }
         if(args[1].equalsIgnoreCase("out"))
             for(bibTexObj citation : bibTexObjs)
-                citation.print();
+                citation.simplifiedPrint();
         else{
             File f = new File(args[1]);
             String print = "";
@@ -515,7 +515,7 @@ public class Main {
                 f.createNewFile();
                 FileWriter writer = new FileWriter(args[1]);
                 for(bibTexObj citation : bibTexObjs)
-                    print += citation.ToString();
+                    print += citation.simplifiedToString();
                 writer.write(print);
                 writer.close();
             }
